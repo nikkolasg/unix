@@ -1,0 +1,2 @@
+UNION ALL SELECT null,null,null,null,null,column_name from information_schema.columns  --:wq
+
