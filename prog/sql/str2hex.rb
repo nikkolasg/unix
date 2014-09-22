@@ -14,14 +14,14 @@ opt_parse = OptionParser.new do |opt|
     opt.on("-v","--verbose", "verbose output") do |v|
         opts[:v] = true
     end
-    opt.on("-sep","--separator","join each char in the input string with a separator. Default is +. You can specify your own") do |s|
+    opt.on("-s","--separator","join each char in the input string with a separator. Default is +. You can specify your own") do |s|
         if s && s.is_a?(String) && !s.empty?
             opts[:sep] = s 
         else
             opts[:sep] = "+"
         end
     end
-    opt.on("-sql","--sql","SQL query format char(c1) + char(c2) ... ") do |sql|
+    opt.on("-f","--format","SQL query format char(0xc1) + char(c2) ... ") do |sql|
         opts[:sql] = true
     end
 end
@@ -40,11 +40,11 @@ str.each_byte { |b| hex << b.to_s(16) }
 print "Hex : " if opts[:v]
 sep = ""
 if opts[:sep]
-    opts[:sep].each_byte {|b| sep << b.to_s(16) }
+    opts[:sep].each_byte {|b| sep << "0x"+b.to_s(16) }
 end
 if opts[:sql] 
-    hex.map! { |c| print "char(#{c})" }
+    hex.map! { |c| "char(0x#{c})" }
 end
 
 puts hex.join(sep)
-
+exit
